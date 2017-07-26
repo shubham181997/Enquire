@@ -1,0 +1,228 @@
+{% extends 'layout.html' %}
+{% block head %}
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='Q&A.css')}}">
+	<title>Q&A</title>
+<style type="text/css">
+	/**{border: 1px solid black;}*/
+	textarea{
+		max-height: 100px;
+	}
+	/*body{border: 4px solid black;
+		margin: 0px;
+		width: 100;}*/		
+</style>
+{% endblock %}
+{% block body %}
+		
+<!-- {% include 'includes/_messages.html' %} -->
+<!-- <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h3 class="modal-title" id="myModalLabel">Choose subcategories</h3>
+	      </div>
+	      <div class="modal-body">
+	        <form class="">
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	      </div>
+	    </div>
+	  </div>
+	</div> -->
+<div class="container-fluid">
+		
+<a href="/"><i class="fa fa-home fa-5x"></i></a>		
+<center>
+<label class="font-25" style="color: #666	"> Ask Query here...</label><br>
+	<div class="Questions container" style="height: 240px;">
+		<form action="/PostQues" method="POST"   onsubmit="validatePostQues()">
+			<div style="overflow: scroll; max-height: 200px;">
+			<textarea name="questa" placeholder="What's your Question??" id="AskQues" style="max-width: 100%;">
+			</textarea>
+			<br></div>
+
+			<div class="dropdown m-0">
+			<input type="text" name="Category" id="Category" placeholder="Category" class="dropbtn m-0">
+			  <div class="dropdown-content m-0">
+			    {% for i in Categories %}
+			    	<input type="button" class="w-100 font-20 ffZilla m-0 subs" onclick="setcat('{{i}}')" value="{{i}}">
+			    {% endfor %}
+			  </div>
+			</div>
+			<div class="dropdown m-0">
+			<input type="text" name="subCategory" id="subCategory" placeholder="subCategory" class="dropbtn m-0" onmouseover="ShowSubcats()">
+			  <div class="dropdown-content m-0" id="SubcategoryOptions">
+			  </div>
+			</div>
+            
+			<!-- <a href="/PostQues"> --><button id="PostQues" class="b-1-black bradius-5 px-2" type="submit" onclick="getQuestion();">Post Question</button><!-- </a>  -->
+		</form>
+
+<!-- 	  <script src="https://rawgit.com/Shubhxotic/html-css-js/master/ckeditor/ckeditor.js"></script>  -->
+
+	  <script src="//cdn.ckeditor.com/4.7.1/standard/ckeditor.js"></script> 
+  <script type="text/javascript">
+  var config={};
+  config['placeholder']="What's your Question??"
+    
+    var aq=CKEDITOR.replace("AskQues",config);
+    aq.placeholder="What's your Question??";
+    
+  </script>
+
+	</div>
+	<div class="Answers">
+		<i></i><h2>Popular Questions for you to answer</h2>
+		<ul id="PopQ">
+			{% for i in PopQues %}
+				<li >{{ i }}</li>
+			{%endfor%}
+		</ul>
+		<ul id="allQues" style="display: none;">
+			{% for i in Titles %}
+				<li class="p-2 m-2">{{ i }}</li>
+			{%endfor%}
+		</ul>
+		<center><button class="btn btn-primary font-20 text-black b-1-solid px-2" id="ViewAll" onclick="allQuesOn()">View All Questions</button></center>
+	
+	</div>
+	<div class="AnswerBox">
+	<form action="/PostAns" method="POST" class="font-25" onsubmit="return validatePostAns()">
+		<textarea placeholder="Write your Answers??"  name="answer" id="PostAns"></textarea>
+		<p class="pull-left my-0">Question:</p> <input name="que" type="text" id="ques" placeholder="Question" style="padding: auto 2px; width:100%;" minlength="2" readonly> 
+		<button id="PostAns" type="submit" class="b-1-black bradius-5 px-2">Post Answer</button> 
+	</form>
+	</div>
+	<br><br><br>
+</center>
+</div>
+
+
+<!-- 	<script src="./ckeditor/ckeditor.js"></script>
+	<script type="text/javascript">
+  var config={};
+  config['placeholder']="What's your Question??"
+    
+    let aq=CKEDITOR.replace("AskQues",config);
+    aq.placeholder="What's your Question??";
+    CKEDITOR.replace("PostAns",config);
+    
+  </script>
+ -->
+
+ 
+  <script type="text/javascript">
+  var config={};
+  config['placeholder']="What's your Question??"
+    
+    let qw=CKEDITOR.replace("PostAns",config);
+    qw.placeholder="What's your Question??";
+
+function getQuestion(){
+	let question1=CKEDITOR.instances.AskQues.getData();
+	//confirm(question1);
+	//alert("adsa"+question1);
+	return question1;
+}
+    
+  </script>
+<script type="text/javascript">
+	let l=document.getElementsByClassName('AnswerBox')[0];
+	l.style.visibility="hidden";
+
+	let p=document.getElementsByTagName("li");
+	for(let i=0;i<p.length;i++){
+		console.log(p[i]);
+		p[i].onclick=function(){
+			l.style.visibility="visible";
+			myFunction(p[i].innerText);}
+		console.log(p[i].onclick);
+	}
+	function myFunction(l) {
+	 	console.log("l="+l);
+	    document.getElementById("ques").value = l;
+	    // document.getElementById("ques").readonly;
+	}
+	function allQuesOn(){
+				console.log("yo");
+				console.log(document.getElementById('allQues'));
+				document.getElementById('allQues').style.display='block';
+				document.getElementById('ViewAll').style.display='none';
+				document.getElementById('PopQ').style.display='none';
+			$('html,body').animate({ scrollTop: 9999 }, 'slow');	
+			l.style.visibility="visible";
+	}	
+	function setcat(cat)
+	{
+		document.getElementById('Category').value=cat;
+	}
+	function setSubcat(subcat)
+	{
+		document.getElementById('subCategory').value=subcat;
+	}
+	function ShowSubcats(){
+		let cat=document.getElementById('Category').value.trim();
+		console.log("cat=",cat);
+		let p=JSON.stringify({{mappedSubs| safe}})
+		console.log("p=",p);
+		let subcats=JSON.parse(p);
+		console.log("subcats=",subcats);
+		// console.log(subcats['History']);
+		// console.log(subcats['Miscellaneous']);
+		if(cat!="")
+		{
+			console.log(subcats);
+			console.log(subcats[cat]);
+			
+			let subcat=document.getElementById('SubcategoryOptions');
+			console.log("subcat===",subcat);
+			let p="";
+			if (cat in subcats){
+				let msubs = subcats[cat].split(',');
+				for(k=0; k<msubs.length; k++)
+					{
+						p+="<input type='button' class='w-100 font-20 ffZilla m-0 subs'  onclick=\"setSubcat('"+msubs[k]+"')\"  value="+msubs[k]+">";
+					}
+				console.log("p=",p);
+				subcat.innerHTML=p;
+				}
+
+
+
+			// subcat.innerHTML="{% if cat in mappedSubs and	mappedSubs[cat]!='None' %}{% for k in mappedSubs[cat].split(',') %}<input type='button' class='w-100 font-20 ffZilla m-0 subs'  onclick=\"setSubcat('{{k}}')\"  value='{{k}}'>{% endfor %}{% endif %}"
+		}
+	}
+</script>
+
+<!-- <script type="text/javascript">
+	function questionSet(que){
+		console.log(que);
+	}
+
+	let l=document.getElementsByClassName('AnswerBox')[0];
+	l.style.visibility="hidden";
+	let questions=[];
+	let x=document.getElementsByTagName('li');
+	for (let i = 0;i<x.length; i++) {
+		questions[i]=x[i].innerText;
+	}
+	console.log(questions)
+	for(let i=0;i<x.length;i++){
+			x[i].onclick=function(){
+				function set(){
+					l.style.visibility="visible";
+					//console.log("question[i]="+question[i]);
+					let p=document.getElementsById('ques');
+					p.innerText=questions[i];
+					return p;
+				}
+				let m=set();
+				console.log(m);
+			}
+	}
+
+</script> -->
+</div>
+{% endblock %}

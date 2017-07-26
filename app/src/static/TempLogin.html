@@ -1,0 +1,134 @@
+{% extends 'layout.html' %}
+{% block head %}
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
+	<title>Login/SignUp</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='login.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css')}}">
+	<style type="text/css">
+		body{
+			background-image : linear-gradient(rgba(255,255,255,0.7),rgba(255,255,255,0.2)), url('https://github.com/Shubhxotic/Shubhxotic.github.io/blob/master/assets/question-and-answer.jpg?raw=true');
+		background-repeat: no-repeat;
+		background-position: center center;
+	}
+	</style>
+{% endblock %}
+{% block body %}
+<div class="container-fluid main-div">
+	<br><br>
+	<h1> HOW TO </h1>
+	<h3> A platform designed to assist you in various basic daily chores </h3>
+	<br><br><br><br>
+	<div  class="btns2full">
+		<div class="row contbox">
+			<a href="/login"><button id="login" class="btn text-black"  > LogIn </button></a>
+			<a href="/register"><button id="signup" class="btn text-black" > SignUp </button></a>
+		</div>
+		<div id="mt-3">
+			{% if endpoint=="reg" %}
+			<form name="loginform" id="loginform" action="" method="POST" style="padding-top: 20px;">
+			
+				{% from "includes/formhelpers.html" import render_field	 %}
+				
+				<div class="form-group">
+					{{render_field(form.name ,placeholder= "Name")}}
+				</div>
+				<div class="form-group">
+					{{render_field(form.username ,placeholder= "Username")}}
+				</div>
+				<div class="form-group">
+					{{render_field(form.email,placeholder= "Email" )}}
+				</div>
+				<div class="form-group">
+					{{render_field(form.password ,placeholder= "Password")}}
+				</div>
+				<div class="form-group">
+					{{render_field(form.confirm ,placeholder= "Confirm Password")}}
+				</div>
+				<p><input type="submit" name="sub" value="submit" class="btn btn-primary">
+				<script type="text/javascript">$('mt-3').addClass('top20');('</script></form>
+			{% elif endpoint=="login" %}
+				<form name="loginform" id="loginform" action="" method="POST" style="padding-top: 50px;">	
+				{% from "includes/formhelpers.html" import render_field	 %}
+				<div class="form-group">
+					<!-- <label>Username</label> -->
+					{{render_field(form.username ,placeholder= "Username")}}
+				</div>
+				<div class="form-group">
+					<!-- <label>Password</label> -->
+					{{render_field(form.password ,placeholder= "Password")}}
+				</div>
+				<div class="loginOptions">
+					<i class="fa fa-facebook" style="font-size: 30px; background-color: #3B5998;; margin-top: 5px;border-radius: 50%; color: #fff; padding: 8px 15px;"></i>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<button type="submit" name="Submit" class="btn btn-primary btn-login" style="margin-top: -15px; width: 20%;font-size: 20px; color: #222;">LogIn</button>
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<i class="fa fa-google-plus" style="font-size: 30px; margin-top: 5px; background-color:#dd4b39; border-radius: 50%; color: #fff; padding: 10px 8px;"></i>
+					<br><br>
+					<a href="/forgotPass">Forgot Password?</a>
+				</div><br>
+				</form>
+			{% endif %}
+
+				<!-- <input type="text" name="Username" placeholder="Username/Email"><br>
+				<input type="Password" name="Password" placeholder="Password"><br>
+				 -->
+
+				 
+		</div>
+			</div>
+</div>
+<br><br><br><br><br>
+<script type="text/javascript">
+
+
+
+	/*console.log("sadasd");
+	
+	document.getElementById('login').style.borderBottom="5px solid DarkCyan";
+	var SignUp=document.getElementById('signup');
+	SignUp.onclick=function(){
+		var btnCont=document.getElementById('btnCont');
+		x='<form name="signUpform" action="/createUser"><input type="text" name="Name" placeholder="Name"><br><input type="text" name="Username" placeholder="Email"><br><input type="Password" name="Password" placeholder="Password"><br><input type="Password" name="Confirm Password" placeholder="Confirm Password"><br><br><button type="Submit" name="SignUp" class="btn btn-danger btn-login" >Register</button><br></form>';
+		document.getElementById('signup').style.borderBottom="5px solid DarkCyan";
+		document.getElementById('login').style.borderBottom="1px solid #444";
+		btnCont.innerHTML=x;
+	};
+	var Login=document.getElementById('login');
+	Login.onclick=function(){
+		var loginform=document.getElementById('loginform');
+		x='<form name="loginform" action='/'><input type="text" name="Username" placeholder="Username/Email"><br><input type="Password" name="Password" placeholder="Password"><br>				<div class="loginOptions"><i class="fa fa-facebook" style="font-size: 30px; background-color: #3B5998;; margin-top: 5px;border-radius: 50%; color: #fff; padding: 8px 15px;"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button type="Submit" name="Submit" class="btn btn-primary btn-login" style="margin-top: -15px; width: 20%;font-size: 20px; color: #222;" >LogIn</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-google-plus" style="font-size: 30px; margin-top: 5px; background-color:#dd4b39; border-radius: 50%; color: #fff; padding: 10px 8px;"></i><br><br><a href="ForgotPassword.html">Forgot Password?</a></div><br>			</form>';
+		document.getElementById('login').style.borderBottom="5px solid DarkCyan";
+		document.getElementById('signup').style.borderBottom="1px solid #444";
+		loginform.innerHTML=x;
+
+		var signpSub=document.getElementById('signup');
+		signpSub.onsubmit=function(){
+			if(document.signUpform.Password.value != document.signUpform.ConfirmPassword){
+				alert("Passwords do not match");
+			}
+		}
+	};*/
+	console.log("{{endpoint}}");	
+	let endpoint="{{endpoint}}";
+	console.log("endpoint= "+endpoint)
+	if (endpoint == 'reg')
+	{
+		
+		$('#login').removeClass('active');
+		$('#signup').addClass('active');
+		console.log("signup="+$('#signup'));
+	}
+	else {
+			var log=$('#login');
+			log.addClass('active');
+			console.log(log);
+			let x=document.getElementById('login');
+			x.style.borderBottom=" 5px solid DarkCyan;"
+			$('#signup').removeClass('active');
+			console.log("login="+log +x);
+			console.log(x);
+		}
+</script>
+{% endblock %}

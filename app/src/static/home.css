@@ -1,0 +1,124 @@
+.srchRes:hover{
+	border: 3px solid #222;
+	
+	background-color: #428baa;	
+}
+/*
+li{
+	background-color: #428Bca;
+}*/
+body{
+	margin: 0px;
+	padding: 0;
+}
+/**{border: 1px solid black;}*/
+.footerw{
+			z-index: 120;
+			height: 80px;
+			padding:10px;
+			text-align: center;
+			background-color: #521341;
+			margin-top: 0px;
+			width: 100%;
+			color: white;
+			border: 1px solid black;
+		}
+	.background-gray{
+			background-color: gray;
+		}
+
+
+	.social{
+			padding: 10px;
+			width: 70px;
+			text-align: center;
+			color: #000;
+			background-color: #fff;
+			border: 2px solid black;
+			border-radius: 50%;
+		}
+
+
+.SampAns{
+	min-height: 250px;
+	/*border: 2px solid black;*/
+	background-color: SteelBlue;
+}
+
+.SampAns p{
+	font-family: 'Zilla Slab', serif;
+	/*background-color: white;*/
+}
+/*ul{
+	background-color: CadetBlue;
+}*/
+a{
+	color: black;
+}
+
+.dropbtn {
+    color: black;
+    	
+    cursor: pointer;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #d9d9d9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content button:hover {background-color: DimGrey; color:black;}
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    color: #333;
+}
+
+#qa:hover{
+	color: #333;
+}
+
+.top-25{
+	top:25% ;
+}
+
+.srchRes{
+	background-color: beige;
+}
+.subcat{
+	background-color: #4281a5;
+}
+
+.subcat:hover{
+	background-color: CornflowerBlue;
+}
+navLi:hover{
+	border: 3px solid #222;
+	border-radius: 6%;
+	font-size: 24px;
+	background-color: #428baa;	
+}
+		
+.ansRendered img{
+	border: 1px solid gray;
+	align-self: center;
+}		

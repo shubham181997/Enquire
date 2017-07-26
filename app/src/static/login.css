@@ -1,0 +1,94 @@
+
+		*{
+			text-align: center;
+			/*border: 1px solid black;*/
+			margin: 0;
+		}
+		
+		body{
+			background: url("file:///home/shubham/Desktop/imagesForProto.io/question-and-answe	r.jpg");
+			background-size: cover;
+			background-image: linear-gradient(rgba(255,255,255,0.3),rgba(255,255,255,0.3)), url("file:///home/shubham/Desktop/imagesForProto.io/question-and-answer.jpg	");
+		}
+		
+		input{
+			font-size: 20px;
+			border-radius: 0%;
+		}
+		input[type="text"]{
+			background-color: #d9d9d9;
+		}
+		input[type="Password"]{
+			background-color: #d9d9d9;
+		}
+		input[type="submit"]{
+			background-color: IndianRed;
+			box-shadow: 2px 2px 2px #444;
+		}
+		h1{
+			color: DarkRed;
+			font-family: Lustinia;
+			font-style: italic;
+		}
+		h3{
+			color: #000;
+			font-family: Lobster;
+			font-style: italic;
+		}
+	
+		input{
+			width: 50%;
+			margin: 0;
+			font-size: 20px;
+			font-family: 'Zilla Slab', serif;
+			border: 1px solid #777;
+			padding: 5px auto;
+			box-shadow: 2px 2px 2px #444;z
+		}
+		
+		.btns2full{
+			width: 60%;
+			margin: 0 20%;
+			padding: 0;
+			height: 360px;
+			border: 0px solid black;
+			box-shadow: 1px 2px 10px #000;
+			/*border: 10px solid purple;*/
+		}
+
+
+		.contbox{
+			box-sizing: border-box;
+			box-sizing: content-box;
+			}
+			.contbox button{
+				color: #292922;
+				font-weight: bold;
+				background: linear-gradient(rgba(255,255,255,0),rgba(255,255,255,0));
+			}
+		#btnCont{
+			/*border: 2px solid black;*/
+			margin: 4em auto;
+		}
+		.loginOptions{
+			padding:3px;
+		}
+	
+		a{
+			color: Blue;
+
+		}
+		.active{
+			border-bottom: 3px solid DarkCyan;
+		}
+		.top20{
+			margin-top: 20px;
+		}
+		
+		#loginform
+		{
+			padding-top: 20px;
+		}
+		#loginform input{
+			autocomplete: off;
+		}

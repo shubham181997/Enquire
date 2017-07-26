@@ -1,0 +1,227 @@
+{% extends 'layout.html' %}
+    
+  {% block head %}
+      <script>$('body').addClass("bg-primary");</script>
+      <style type="text/css">/**{border: 2px solid black;}*/ body{ background-color: #428bca; } </style>
+      <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='home.css')}}">
+      <title>How To</title>
+  {% endblock %}
+    <!-- 
+    <h1>yo boys</h1>
+    <form action="LoginPage.html" method="post">
+        <button type="Submit" name="loginSignup">Login/SignUp</button>
+    </form>
+     -->
+{% block body %} 
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">Choose subcategories</h3>
+      </div>
+      <div class="modal-body">
+        <center>
+         <form action="/renderArticle" method="POST" class="font-20 text-left ffZilla">
+            {% for i in categories %} 
+                {% if i['subcategories']!=None %}
+                    {% for j in i['subcategories'].split(',') %}
+                        {% if str(j)!="None" %}
+                          <input type="checkbox" name="{{j}}"  style="margin-left: 40%; "> {{j}} <br>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+                <input type="submit" value="Submit" class="font-25 btn btn-primary"  style="margin-left: 40%; "><hr>
+          </form>
+          
+        </center>
+      </div>
+      <div class="modal-footer">
+              </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid mx-0 mr-0 px-0 b-3-black mx-0" style="padding-left: 5px;">
+{% include 'includes/navbar.html' %}
+
+<div class="col-md-12 row bg-primary mx-0" style="height:60em;  padding: 0px; margin: 0px; ">
+    
+    <div class="col-md-3 bg-primary text-center bg-info h-100 px-0 b-1-black" style="height: 405px;">
+        <ul class="text-center list-inline  h-100 " style=" background-color: #4291c2;  ">
+        {% for i in categories %}
+            <div class="dropdown w-100 row">
+              <li class=" dropbtn list-group-item navLi w-100 mx-auto px-auto font-20 text-black ffZilla b-1-black col-md-12 " 
+                style="background-color: #4281b5;"   name="{{i}}"> 
+                {{ i['category'] }} 
+              </li><br><br><br>
+              <div class="dropdown-content w-70 pull-left text-black bg-info m-0 p-0">
+                <!-- <a href="/Profile"><i class="fa fa-user p-2" style="border: 0px solid grey; border-radius:100%;"></i>  Profile </a>
+                <a href="/Logout"><i class="fa fa-sign-out p-2" style="border: 0px solid grey; border-radius:100%;"></i> Logout </a> -->
+                
+{% for j in str(i['subcategories']).split(',') %}
+                <form action="/renderArticle" method="POST" class="font-20 text-left ffZilla px-0 b-2-black">
+                    <button class="font-22 text-black drops my-0 w-100 btn-primary px-0 mx-0" type="submit"><input type="text" name="{{ripOff(j)}}" value="{{ripOff(j)}}" class="subcat m-0 p-0" readonly></button>
+                    <br>
+                  
+                </form>
+{% endfor %}
+
+                
+
+              </div>
+            </div>
+
+            <ul></ul>
+        {% endfor %}
+           <br>
+           <button class="btn btn-primary b-2-black px-2 py-2 font-20 text-black" data-toggle="modal" data-target="#myModal1">View all subcategories</button>
+        </ul>
+    </div>
+    
+    <div class="col-md-9 bg-info m-0 p-0 b-2-black" id="Switcher" style="overflow-y: scroll;">
+    {% if comm==1 %}
+        {% if len(searchRes)==0 %}
+          <p class="top-25 text-black ffZilla text-center font-30">No results found</p>
+        {% else %}
+        <ul class="list-group row" style="box-sizing: border-box;">
+        {% for i in searchRes %}
+         <!--  <form action="/renderArticle" method="POST" class="list-group-item  col-md-12 b-1-black row srchRes" >
+             <div addClasss="col-md-10 text-black font-25 px-5" name="cat">{{i}}</div> 
+             <div class="col-md-2 b-1-black"><button><i type="submit" class="  fa fa-arrow-right fa-3x pull-left   text-black col-md-1"> </i></div></button>
+          </form> -->
+          <form action="/renderSearch" method="POST" class="list-group-item  col-md-12 row srchRes m-0 p-0" >
+             <div type="submit" class="submitRes row col-md-12 m-0 p-0">
+             <input type="text" name="renArt" class="col-md-10 text-black font-25 px-5" value="{{i}}" readonly> 
+             <button class="col-md-2" type="submit"><i class="  fa fa-arrow-right fa-3x pull-left   text-black col-md-1"> </i></div>
+             </button>
+          </form>
+        {% endfor %}
+        </ul>
+        {% endif %}
+        <div class=" text-center top-25 " style="margin-top: 50px;">
+            <a href="/"><button class="btn btn-primary font-25 b-2-black mx-2 text-black"><b><i class="fa fa-angle-left font-25"></i></b> Back to Home</button></a>
+            <a href="/QandA"><button class="btn btn-primary font-25 b-2-black mx-2 text-black">Post Query on our forum <i class="fa fa-pencil font-25"></i></button></a><br>
+        </div>
+    {% elif comm==2 %}
+      {% if noOfArticle ==0 %}
+          <h1 class="text-center text-black ffRoboto mt-3"> No answers in this category yet </h1>
+          <br><br><br>
+          <center><a href="/"><div class=" text-center top-25 " style="margin-top: 50px%;">
+            <a href="/"><button class="btn btn-primary font-25 b-2-black mx-2 text-black"><b><i class="fa fa fa-newspaper-o font-25"></i></b> Load Feed </button></a>
+            <a href="/QandA"><button class="btn btn-primary font-25 b-2-black mx-2 text-black">Write answers on our forum <i class="fa fa-pencil font-25"></i></button></a><br>
+        </div></a></center>
+      {% else %}
+      {% for i in range(noOfArticle) %} 
+        <div class="row h2 m-0 text-center p-2" style="background-color: #bbb ; color: black; height: 7%; margin: auto;" >
+            <p class="col-md-12 text-center ffZilla font-25 ">{{questions[i] | safe }}</p>
+        </div>
+        <div class="h2 m-0 p-2 text-left text-black SampAns bt-1 bg-white" style="background-color:#ddd; min-height: 80%; overflow-y: scroll;">
+             <p class="text-white ffZilla" style="color: #fff;">{{answers[i]['answer'].strip() | safe}}</p>
+        </div>
+        <div class=" col-md-12 m-0 p-2 text-right text-black   bb-1 bg-SteelBlue pb-0 row" style="background-color: #ddd; height: 8%">
+            <div class="col-md-3"></div>
+             <h3 class="col-md-7 pull-right pt-2">Written By:- {{answers[i]['answered_by'].strip() | safe}}</h3>
+             <!-- <i class="col-md-1 fa fa-share-alt fa-4x pull-left p-0 m-0"></i> -->
+             <div class="dropdown pull-right col-md-1 pull-right ">
+              <i class="col-md-1 fa fa-share-alt fa-4x pull-left p-0 m-0 dropbtn"></i>
+              <br><br>  
+              <div class="dropdown-content" >
+                <a href="http://www.facebook.com" class="font-20 pull-left" target="_blank" ><i class="fa fa-facebook fa-2x p-2 text-primary" style="border: 0px solid grey; border-radius:100%;"></i>Facebook</a>
+                <a href="http://www.twitter.com" class="font-20 pull-left"  target="_blank" ><i class="fa fa-twitter fa-2x p-2" style="color:SkyBlue; border: 0px solid grey; border-radius:100%;"></i>Twitter</a>
+              </div>
+            </div>    
+        </div>
+      {% endfor %}
+      {% endif %}
+    {% else %}
+    {% if NotFound==1 %}
+       <p class="top-25 text-black ffZilla text-center font-30">Not answered Yet</p>
+        <div class=" text-center top-25 " style="margin-top: 50px;">
+            <a href="/"><button class="btn btn-primary font-25 b-2-black mx-2 text-black"><b><i class="fa fa-newspaper-o font-25"></i></b> Back to Home</button></a>
+            <a href="/QandA"><button class="btn btn-primary font-25 b-2-black mx-2 text-black">Answer it on our forum <i class="fa fa-pencil font-25"></i></button></a><br>
+        </div>
+    {% else %}
+    {% for i in range(noOfArticle) %} 
+        <div class="row h2 m-0 text-center p-2" style="background-color: #ddd ; color: black; height: 7%; margin: auto;" >
+            <p class="col-md-12 text-center ffZilla font-25 ">{{SampQues[i]}}</p>
+        </div>
+        <div class="h2 m-0 p-2 text-left text-black SampAns bt-1 bg-white ansRendered" style="background-color:#bbb; min-height: 77%; overflow-y: scroll; ">
+             <p class="text-black ffZilla " style="color: #000;">{{articles[i]['answer'].strip() | safe}}</p>
+        </div>
+        <div class=" col-md-12 m-0 p-0 text-right text-black   bb-1 bg-SteelBlue pb-0 row" style="background-color: #bbb; height: 8%">
+            <div class="col-md-3"></div>
+             <h3 class="col-md-7 pull-right pt-2">Written By:- {{articles[i]['answered_by'].strip() | safe}}</h3>
+             <!-- <i class="col-md-1 fa fa-share-alt fa-4x pull-left p-0 m-0"></i> -->
+             <div class="dropdown pull-right col-md-1 pull-right ">
+              <i class="col-md-1 fa fa-share-alt fa-4x pull-left p-0 m-0 dropbtn"></i>
+              <br><br>  
+              <div class="dropdown-content" >
+                <a href="http://www.facebook.com" class="font-20 pull-left" target="_blank" ><i class="fa fa-facebook fa-2x p-2 text-primary" style="border: 0px solid grey; border-radius:100%;"></i>Facebook</a>
+                <a href="http://www.twitter.com" class="font-20 pull-left"  target="_blank" ><i class="fa fa-twitter fa-2x p-2" style="color:SkyBlue; border: 0px solid grey; border-radius:100%;"></i>Twitter</a>
+              </div>
+            </div>    
+        </div>
+    {% endfor %}
+    {% endif %}
+    {% endif %}
+    </div>
+</div>
+<div class="row margin-zero background-gray font-20" style="padding:20px; color: white; margin-top:-10px; ">
+    <div class="col-md-6 col-xs-6 text-center font-20">
+      <br/>
+      <h3 class="font-20">Made with <i class="fa fa-coffee"></i> and <i class="fa fa-music"></i></h3>
+      <h3 class="font-20">by <a target="_blank" href="https://medium.com/@agarwalshubham562" style="color: #521341;" id="mynamefooter"><p class="font-20 text-purple">Shubham Agarwal</p></a></h3>
+    </div>
+    <div class="col-md-6 col-xs-6 text-center">
+      <h1>Contact Me</h1>
+      <br/>
+      <div class="text-center"> 
+        <a target="_blank" href="https://www.facebook.com/shubham.mischieveous" title="facebook"><i class="fa fa-facebook social" style="font-size: 40px;"></i></a>
+        <a target="_blank" href="https://github.com/Shubhxotic" title="Github">
+        <i class="fa fa-github social" style="font-size: 40px;"></i></a>
+        <a target="_blank" href="https://twitter.com/agarwalshubh97" title="Twitter">
+        <i class="fa fa-twitter social" style="font-size: 40px;"></i></a>
+        <a target="_blank" href="www.youtube.com" title="youtube">
+        <i class="fa fa-youtube  social" style="font-size: 40px;"></i></a>
+        <a target="_blank" href="https://www.instagram.com/shubham_324/?hl=en" title="instagram">
+        <i class="fa fa-instagram social" style="font-size: 40px;"></i></a>
+        <a target="_blank" href="https://medium.com/@agarwalshubham562" title="medium">
+        <i class="fa fa-medium social" style="font-size: 40px;"></i></a>
+      </div>
+    </div>
+
+</div>
+
+<div class="footerw">
+  <h2  style="margin: auto;" >Shubham Agarwal <i class="fa fa-copyright"></i> 2017.All Rights reserved.</h2>
+</div>
+</div>  
+{% endblock%}
+{% block scripts %}
+  <script type="text/javascript">
+    if(location.href.split('?').length>1)
+    {
+      if(location.href.split('?')[1])
+      {
+
+      }
+    }
+    function LoadPP(){
+      var pp=document.getElementById('topPP'); 
+      pp.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFg_oO2x-oCgbvj8MsgGtzlVrv3d3I2iFIpAOtbnEyPXO1CHwV";
+    }
+    // $('.ansRendered > img').addClass('imgBorder');
+    $('a').css('color','#05f');
+    $('img').css('target','_blank');
+    function validate(){
+      let srchval=document.getElementById('searchQuery').value.trim();
+      if (srchval==''){
+        alert("Search can't be empty");
+        return false;
+      }
+      return true;
+    }
+  </script>
+{% endblock %}

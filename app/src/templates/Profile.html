@@ -1,0 +1,158 @@
+{% extends 'layout.html' %}
+
+{% block body %} 
+<div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title" id="myModalLabel">Choose subcategories</h3>
+      </div>
+      <div class="modal-body">
+        <center>
+        
+                <form action="/insertImg" method="POST">
+        	        <input type="text" name="ImageUrl" class="b-1-black font-20 w-80" placeholder="Enter URL for your Profile Pic"><br><br><br>
+        	        <input type="submit" value="Change It!" class="btn btn-primary font-20 text-black"> <hr>
+                </form>
+            
+        </center>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+
+	<div class="container-fluid p-0">
+		<div class="row bg-danger">
+			<div class="col-md-1">
+				<a href='javascript:history.go(-1)'><i class="fa fa-arrow-left fa-5x text-black"></i></a>
+			</div>
+			<div class="col-md-1">
+				<a href='/'><i class="fa fa-home fa-5x text-black"></i></a>
+			</div>
+			<div class="col-md-10">
+				<a href="/logout"><button class="btn btn-default bg-IndianRed w-25 h-100 pull-right ffZilla font-30" style=" border: 2px solid black;" id="LogoutBtn">Logout</button></a>
+			</div>
+		</div>
+		<div class="center_div  px-auto pt-5 mx-0" style="
+		 background: url('https://accelerator-origin.kkomando.com/wp-content/uploads/2017/01/questions-answers.jpg'); 
+			background-size: cover;
+			background-image: linear-gradient(rgba(255,255,255,0.6),rgba(255,255,255,0.7)), url('https://accelerator-origin.kkomando.com/wp-content/uploads/2017/01/questions-answers.jpg');
+			margin: auto; padding: auto; border:4px solid white;"> 
+			<div class="row" style="height: 200px;">
+			<div class="col-md-3"></div>
+			<h2 style="font-size:25px;"  class="col-md-2">  Profile Pic: </h2> 
+			<img class="col-md-2 img-responsive " id="ppic"  src="{{user['profilepic']}}" onerror=" this.src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFg_oO2x-oCgbvj8MsgGtzlVrv3d3I2iFIpAOtbnEyPXO1CHwV';" 	
+			 alt="profile pic" height="90px;" width="50px;" style="max-width: 200px; max-height: 200px;" > 
+			<div class="col-md-1"> 
+				<button  id="editBtn" onclick="profilePicture()" data-toggle="modal" data-target="#myModal1"><i class="fa fa-edit fa-5x" ></i></button>
+			</div>
+			<div class="col-md-4"></div>
+			</div>
+			<br/>
+			<div class="row mx-0"><div class="col-md-3"></div><h2 style="font-size:25px;"  class="col-md-2 mx-0">
+			Name: </h2><p style="font-size:30px;" class="col-md-7 mx-0"> {{user['name']}} </p>
+			</div>
+			<br/>
+			<div class="row mx-0"><div class="col-md-3"></div><h2 style="font-size:25px;"  class="col-md-2">
+			Username: </h2> <p style="font-size:30px;" class="col-md-7"> {{user['username']}} </p> 
+			</div>
+			<br/>
+			<div class="row mx-0"><div class="col-md-3"></div><h2 style="font-size:25px;"  class="col-md-2">
+			email: </h2>  <p style="font-size:30px;" class="col-md-7"> {{user['email']}} </p> 
+			</div>
+			<br/>
+			<div class="row mx-0">
+			<div class="col-md-3"></div>
+			<h2 style="font-size:25px;"  class="col-md-2">Questions Asked: </h2> 
+			 <ul class="list-inline text-left col-md-7 mx-0"> 
+				{% if len(Qask)==0 %}
+					<p class="font-30">No questions asked Yet</p>
+				{% else %}
+				<form action="/renderSearch" method="POST" class="list-group-item  col-md-12 row srchRes m-0 p-0" >
+             		{% for i in Qask %}
+			             <div type="submit" class="row col-md-12 m-0 p-0">
+			             <input type="submit" name="renArt" class="col-md-12 b-1-black text-black font-25 px-2 quests w-100 list-group-item fw500" value="{{i['title']}}" readonly> 
+			            </div>
+						 <!-- <li class="quests w-100 list-group-item font-25 fw500">{{i['title']}}</li> -->
+					{% endfor %}
+				</form>
+				{% endif %}
+	<!-- 		 <li style="font-size:20px; border:1px solid black;" class=" w-100 list-group bg-primary -item">yo</li><li style="font-size:20px; border:1px solid black;" class=" w-100 list-group bg-primary -item">yo</li><li style="font-size:20px; border:1px solid black;" class=" w-100 list-group bg-primary -item">yo</li>  -->
+			</ul>
+			</div>
+			<br/>
+			<div class="row">
+			<div class="col-md-3"></div><h2 style="font-size:25px;"  class="col-md-2"> Questions Answered: </h2>  
+			<ul class="list-inline text-left col-md-7 mx-0">
+				{% if len(Qans)==0 %}
+					<p class="font-30">No questions answered Yet</p>
+				{% else %}
+				<form action="/renderSearch" method="POST" class="list-group-item  col-md-12 row srchRes m-0 p-0" >
+             		{% for i in Qans %}
+			             <div type="submit" class="row col-md-12 m-0 p-0">
+			             <input type="submit" name="renArt" class="col-md-12 text-black b-1-black font-25 px-2 quests w-100 list-group-item fw500" value="{{i}}" readonly> 
+			            </div>
+					{% endfor %}
+				</form>
+				<!-- 
+					{% for i in Qans %}
+						 <li class="quests w-100 list-group-item font-25 fw500" >{{i}}</li>
+					{% endfor %} -->
+				{% endif %}
+			<!--  <li style="font-size:20px; border:1px solid black;" class=" w-100 list-group bg-primary -item">yo</li><li style="font-size:20px; border:1px solid black;" class=" w-100 list-group bg-primary -item">yo</li><li style="font-size:20px; border:1px solid black;" class=" w-100 list-group bg-primary -item">yo</li> --> 
+			</ul>
+			</div>
+		</div>
+	</div>
+{% endblock%}
+{% block scripts %}
+<script type="text/javascript">
+	// let x=document.getElementById('editBtn');
+	// console.log(x);
+	// x.onclick=function() {
+	// 	let pp="{{user.profilepic}}";
+	// 	console.log("pp="+pp);
+	// 	if(pp==null or pp=="None")
+	// 	{
+	// 		document.getElementById('ppic').src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFg_oO2x-oCgbvj8MsgGtzlVrv3d3I2iFIpAOtbnEyPXO1CHwV"
+	// 	}
+	// }
+	
+
+ //  let x=document.getElementById('editBtn');
+ //  console.log(x);
+ //  x.onclick=function() {
+ //    let pp={{user.profilepic}};
+ //    console.log("pp="+pp);
+ //    if(pp==null or pp=="None")
+ //    {
+ //      document.getElementById('ppic').src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFg_oO2x-oCgbvj8MsgGtzlVrv3d3I2iFIpAOtbnEyPXO1CHwV"
+ //    }
+ //  }
+
+  // function profilePicture(){
+  // 	var url=prompt("Please enter a URL for your Profile Pic");
+  // 	if(url.length>0){
+  // 		let ppic=document.getElementById('ppic');
+  // 		ppic.onerror=function(){
+  // 			alert("Wrong URL Entered");
+  // 			this.src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFg_oO2x-oCgbvj8MsgGtzlVrv3d3I2iFIpAOtbnEyPXO1CHwV";
+  // 		}
+  // 		ppic.src=url;
+  // 		window.location.href='/insertImg/'+url;
+  // 	}	
+  // 	else{
+  // 		alert("Url Can't be empty");
+  // 	}
+  // }
+
+</script>
+{% endblock %}
+<!-- 
+ {if {{user.profilepic}} == None  %}
+			src="{{user.profilepic}}"  else } src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQFg_oO2x-oCgbvj8MsgGtzlVrv3d3I2iFIpAOtbnEyPXO1CHwV" {endif } -->
+
